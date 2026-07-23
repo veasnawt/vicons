@@ -39,7 +39,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/veasnawt/vicons.git"
+    "url": "git+https://github.com/veasnawt/vicons.git"
   },
   "homepage": "https://github.com/veasnawt/vicons",
   "bugs": {
