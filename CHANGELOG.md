@@ -1,8 +1,13 @@
 # Changelog
 
-## 0.1.1
+## 0.2.0
 
-### Fixed
+### Added
 
-- Remove stale generated icon components before regeneration.
-- Prevent renamed SVG files from leaving obsolete React components.
+- New Categories
+- New Icons
+
+### Improved
+
+- Consistent icon design
+- Better naming

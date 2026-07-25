@@ -6,6 +6,7 @@ Designed for modern applications with a clean, minimalist style. VIcons powers B
 
 ## Features
 
+- ✨ 130+ icons
 - 🎨 Minimalist outline icon system
 - 📏 Consistent 24×24 grid
 - 🎯 Pixel-perfect strokes
