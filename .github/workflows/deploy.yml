@@ -28,13 +28,23 @@ jobs:
         with:
           node-version: 22
           cache: "pnpm"
-          cache-dependency-path: docs/pnpm-lock.yaml
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            docs/pnpm-lock.yaml
 
-      - name: Install
+      # Build the library
+      - name: Install library dependencies
+        run: pnpm install
+
+      - name: Build library
+        run: pnpm build
+
+      # Build the docs
+      - name: Install docs dependencies
         working-directory: docs
         run: pnpm install
 
-      - name: Build
+      - name: Build docs
         working-directory: docs
         run: pnpm build
 
