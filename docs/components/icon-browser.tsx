@@ -4,6 +4,10 @@ import * as Vicons from "@veasnawt/vicons";
 import type { ComponentType } from "react";
 import { useMemo, useState } from "react";
 
+import {
+  formatExampleSnippet,
+  formatJsxSnippet,
+} from "@/lib/copy-formatters";
 import type { IconEntry } from "@/lib/icons";
 import { categories } from "@/lib/icons";
 
@@ -24,14 +28,17 @@ interface IconBrowserProps {
   icons: IconEntry[];
 }
 
-function formatImport(name: string) {
-  return `import { ${name} } from "@veasnawt/vicons";`;
-}
+type CopyType = "svg" | "jsx" | "example";
+
+type CopiedState = {
+  name: string;
+  type: CopyType;
+};
 
 export function IconBrowser({ icons }: IconBrowserProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("all");
-  const [copiedName, setCopiedName] = useState<string | null>(null);
+  const [copied, setCopied] = useState<CopiedState | null>(null);
 
   const filteredIcons = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -47,10 +54,10 @@ export function IconBrowser({ icons }: IconBrowserProps) {
     });
   }, [category, icons, query]);
 
-  async function copyImport(name: string) {
-    await navigator.clipboard.writeText(formatImport(name));
-    setCopiedName(name);
-    window.setTimeout(() => setCopiedName(null), 1500);
+  async function copyText(text: string, nextCopied: CopiedState) {
+    await navigator.clipboard.writeText(text);
+    setCopied(nextCopied);
+    window.setTimeout(() => setCopied(null), 1500);
   }
 
   return (
@@ -104,38 +111,112 @@ export function IconBrowser({ icons }: IconBrowserProps) {
             const Icon = iconComponents[icon.name];
 
             return (
-              <button
+              <IconCard
                 key={`${icon.category}-${icon.name}`}
-                type="button"
-                onClick={() => copyImport(icon.name)}
-                className="group flex flex-col items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 text-left transition hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-700 dark:hover:bg-zinc-900"
-              >
-                <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-50 text-zinc-950 transition group-hover:bg-white dark:bg-zinc-900 dark:text-zinc-50 dark:group-hover:bg-zinc-800">
-                  {Icon ? (
-                    <Icon size={24} strokeWidth={2} />
-                  ) : (
-                    <span className="text-xs text-zinc-400">?</span>
-                  )}
-                </span>
-
-                <span className="w-full text-center">
-                  <span className="block truncate text-sm font-medium text-zinc-950 dark:text-zinc-50">
-                    {icon.name}
-                  </span>
-                  <span className="mt-0.5 block truncate text-xs capitalize text-zinc-500 dark:text-zinc-400">
-                    {icon.category}
-                  </span>
-                </span>
-
-                <span className="text-[11px] font-medium text-zinc-400 transition group-hover:text-zinc-600 dark:group-hover:text-zinc-300">
-                  {copiedName === icon.name ? "Copied" : "Click to copy"}
-                </span>
-              </button>
+                icon={icon}
+                Icon={Icon}
+                copied={copied}
+                onCopySvg={() =>
+                  copyText(icon.svg, { name: icon.name, type: "svg" })
+                }
+                onCopyJsx={async () =>
+                  copyText(await formatJsxSnippet(icon.name), {
+                    name: icon.name,
+                    type: "jsx",
+                  })
+                }
+                onCopyExample={async () =>
+                  copyText(await formatExampleSnippet(icon.name), {
+                    name: icon.name,
+                    type: "example",
+                  })
+                }
+              />
             );
           })}
         </div>
       )}
     </div>
+  );
+}
+
+function IconCard({
+  icon,
+  Icon,
+  copied,
+  onCopySvg,
+  onCopyJsx,
+  onCopyExample,
+}: {
+  icon: IconEntry;
+  Icon?: IconComponent;
+  copied: CopiedState | null;
+  onCopySvg: () => void;
+  onCopyJsx: () => Promise<void>;
+  onCopyExample: () => Promise<void>;
+}) {
+  function isCopied(type: CopyType) {
+    return copied?.name === icon.name && copied.type === type;
+  }
+
+  return (
+    <div className="flex flex-col rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-50 text-zinc-950 dark:bg-zinc-900 dark:text-zinc-50">
+        {Icon ? (
+          <Icon size={24} strokeWidth={2} />
+        ) : (
+          <span className="text-xs text-zinc-400">?</span>
+        )}
+      </div>
+
+      <div className="mt-3 w-full text-center">
+        <p className="truncate text-sm font-medium text-zinc-950 dark:text-zinc-50">
+          {icon.name}
+        </p>
+        <p className="mt-0.5 truncate text-xs capitalize text-zinc-500 dark:text-zinc-400">
+          {icon.category}
+        </p>
+      </div>
+
+      <div className="mt-3 flex flex-col gap-1.5">
+        <CopyButton
+          label={isCopied("svg") ? "Copied" : "Copy SVG"}
+          onClick={onCopySvg}
+          disabled={!icon.svg}
+        />
+        <CopyButton
+          label={isCopied("jsx") ? "Copied" : "Copy JSX"}
+          onClick={() => void onCopyJsx()}
+          disabled={!Icon}
+        />
+        <CopyButton
+          label={isCopied("example") ? "Copied" : "Copy Example"}
+          onClick={() => void onCopyExample()}
+          disabled={!Icon}
+        />
+      </div>
+    </div>
+  );
+}
+
+function CopyButton({
+  label,
+  onClick,
+  disabled,
+}: {
+  label: string;
+  onClick: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="rounded-md border border-zinc-200 px-2 py-1.5 text-[11px] font-medium text-zinc-600 transition hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50"
+    >
+      {label}
+    </button>
   );
 }
 

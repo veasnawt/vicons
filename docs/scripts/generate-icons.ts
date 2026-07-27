@@ -2,9 +2,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { formatSvgFromTsx } from "./format-svg";
+
 export interface IconEntry {
   name: string;
   category: string;
+  svg: string;
 }
 
 export async function discoverIconEntries(): Promise<IconEntry[]> {
@@ -22,9 +25,13 @@ export async function discoverIconEntries(): Promise<IconEntry[]> {
     for (const file of files) {
       if (!file.endsWith(".tsx")) continue;
 
+      const filePath = path.join(categoryDir, file);
+      const source = await fs.readFile(filePath, "utf8");
+
       icons.push({
         name: path.basename(file, ".tsx"),
         category: category.name,
+        svg: formatSvgFromTsx(source),
       });
     }
   }
@@ -46,6 +53,7 @@ async function main() {
 export interface IconEntry {
   name: string;
   category: string;
+  svg: string;
 }
 
 export const icons: IconEntry[] = ${JSON.stringify(icons, null, 2)};

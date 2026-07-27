@@ -9,8 +9,8 @@ export default function IconsPage() {
           Icons
         </h1>
         <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          Browse the full vicons library. Search by name or category, then
-          click an icon to copy its import statement.
+          Browse the full vicons library. Search by name or category, then copy
+          formatted SVG markup, JSX, or a ready-to-use example component.
         </p>
       </div>
 
