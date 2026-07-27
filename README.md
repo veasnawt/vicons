@@ -1,3 +1,21 @@
+<p align="left">
+  <picture>
+    <source
+      media="(prefers-color-scheme: dark)"
+      srcset="assets/logo-dark.svg"
+    />
+    <source
+      media="(prefers-color-scheme: light)"
+      srcset="assets/logo-light.svg"
+    />
+    <img
+      src="assets/logo-light.svg"
+      alt="VIcons"
+      width="96"
+    />
+  </picture>
+</p>
+
 # VIcons
 
 Beautiful, consistent SVG icons for React.
