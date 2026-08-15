@@ -20,13 +20,13 @@
 
 Beautiful, consistent SVG icons for React.
 
-Designed for modern applications with a clean, minimalist style. VIcons powers BP Studio and is built to be fast, tree-shakeable, and easy to use.
+Designed for modern applications with a clean, minimalist style. VIcons powers BP Studio, VStudio, and Veasna OS's Universe shell, and is built to be fast, tree-shakeable, and easy to use.
 
 🌐 **Documentation & Icon Browser:** https://veasnawt.github.io/vicons
 
 ## Features
 
-- ✨ 130+ icons
+- ✨ 145+ icons
 - 🎨 Minimalist outline icon system
 - 📏 Consistent 24×24 grid
 - 🎯 Pixel-perfect strokes

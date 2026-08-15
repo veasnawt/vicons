@@ -5,7 +5,9 @@
 ### Added
 
 - New Categories
-- New Icons
+- New Icons, including: `Text`, `Cosmos`, `Desktop`, `History`, `Install`, `Transition`,
+  `ExternalLink`, `Maximize`, `Redo`, `Split`, `Undo`, `SkipBack`, `SkipForward`, `StepBack`,
+  `StepForward`
 
 ### Improved
 

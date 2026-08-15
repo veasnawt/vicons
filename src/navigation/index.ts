@@ -1,3 +1,4 @@
+export * from "./ExternalLink";
 export * from "./Globe";
 export * from "./Home";
 export * from "./Location";
