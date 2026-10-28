@@ -26,7 +26,7 @@ Designed for modern applications with a clean, minimalist style. VIcons powers B
 
 ## <img src="https://vicons-svg-api.veasnawt.workers.dev/star.svg?color=F59E0B&size=24" width="24" alt="" /> Features
 
-- <img src="https://vicons-svg-api.veasnawt.workers.dev/grid.svg?color=8B5CF6&size=20" width="20" alt="" /> **145+ icons**
+- <img src="https://vicons-svg-api.veasnawt.workers.dev/sparkle.svg?color=8B5CF6&size=20" width="20" alt="" /> **145+ icons**
 - <img src="https://vicons-svg-api.veasnawt.workers.dev/art.svg?color=EC4899&size=20" width="20" alt="" /> Minimalist outline icon system
 - <img src="https://vicons-svg-api.veasnawt.workers.dev/grid.svg?color=06B6D4&size=20" width="20" alt="" /> Consistent 24×24 grid
 - <img src="https://vicons-svg-api.veasnawt.workers.dev/check.svg?color=22C55E&size=20" width="20" alt="" /> Pixel-perfect strokes
